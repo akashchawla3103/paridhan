@@ -1,0 +1,42 @@
+   @media only screen and (max-width: 600px) {
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 600px;
+    }
+  
+    thead {
+      display: none;
+    }
+  
+    tr {
+      border-bottom: 1px solid #ccc;
+      display: block;
+      margin-bottom: 10px;
+
+    }
+  
+    td {
+      border-bottom: 1px solid #ccc;
+      display: block;
+      font-weight: bold;
+      text-align: right;
+      font-size: 13px;
+      position: relative;
+      padding-left: 50%;
+      margin-bottom: 10px;
+
+
+    }
+  
+    td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      width: 50%;
+      text-align: left;
+      padding-left: 15px;
+    }
+  }
+  

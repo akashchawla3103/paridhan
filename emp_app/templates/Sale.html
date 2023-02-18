@@ -1,0 +1,89 @@
+{% extends "nav.html" %}
+{% block nav_start %}
+
+<div class="container" style="margin-top: 5%;">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{message}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  
+    </div>
+    {% endfor %}
+    {% endif %}
+<div style="text-align:center;">
+    <h2>Sale</h2>
+</div>
+<form method="post" id="sale-form">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label" for="Employee">Employee</label>
+        <select id="emp" name="id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            <option selected>Select Type</option>
+            {% for i in Employees %}
+            <option value="{{i.name}}">{{i.name}}</option>
+            {% endfor %}
+        </select>
+        </div>
+
+   
+    <div class="mb-3">
+      <label for="exampleInputAmount1" class="form-label">Amount</label>
+      <input type="number" name="Amount" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+    </div>
+
+<div class="mb-3">
+    <label class="form-label" for="Employee">Item</label>
+    <select name="Type" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <option selected>Select Type</option>
+        <option value="Sarees">Sarees</option>
+        <option value="Shiring and Shuting">Shirting and Shuting</option>
+        <option value="Both">Both</option>
+    </select>
+    </div>
+    <input class="btn btn-primary w-100" type="submit" value="ADD SALE">
+   
+  </form>
+</div>
+
+
+
+<script>
+    const form = document.getElementById('sale-form');
+    const emp = document.getElementById('emp');
+    const type = document.getElementsByName('Type')[0];
+    const amount = document.getElementsByName('Amount')[0];
+
+    emp.addEventListener("change", function() { 
+        emp.style.border = ''; // reset border color when employee is selected
+    });
+    
+    form.addEventListener('submit', (event) => {
+        let isValid = true;
+
+        // validate employee selection
+        if (emp.selectedIndex === 0) {
+            emp.style.border = '2px solid red';
+            isValid = false;
+        }
+
+        // validate amount input
+        if (isNaN(amount.value) || amount.value <= 0) {
+            amount.style.border = '2px solid red';
+            isValid = false;
+        }
+
+        // validate type selection
+        if (type.selectedIndex === 0) {
+            type.style.border = '2px solid red';
+            isValid = false;
+        }
+
+        // prevent form submission if any validation failed
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+{%endblock %}

@@ -1,0 +1,71 @@
+{% extends "nav.html" %}
+
+{% block nav_start %}
+
+<div class="container" style="margin-top: 5%;">
+
+<form method="post">
+
+    <div style="text-align:center;">
+        <h2>Attendance</h2>
+    </div>
+    {% csrf_token %}
+    {% if not  a_employees  %}
+    <p>No one is absent</p>
+    {% else %}
+ 
+<h2>Employees</h2>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th  scope="col">Id</th>
+
+            <th scope="col">Employee</th>
+            <!-- <th scope="col">Time</th>
+            <th scope="col">Date</th> -->
+            <th scope="col">Mark Attendence</th>
+          </tr>
+        </thead>
+        <tbody>
+         
+          
+          {% for e in a_employees %}
+            <tr>
+              <td data-label="Sr.no:" scope="row">{{e.id}}</td>
+              <td data-label="Name:">{{ e.name }}</td> 
+              <td data-label="Mark:"><a href="{% url 'mark_attendance' e.id %}" class="btn btn-outline-danger">Mark</a></td>
+            </tr>
+            <br>
+          {% endfor %}
+     {% endif %}
+
+        </tbody>
+    </table>
+
+
+<h2>Present Members </h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+
+      <th scope="col">Employee</th>
+      <th scope="col">Time</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for ef in p_employees %}
+    <tr>
+      <td data-label="Sr.no:" scope="row">{{ef.id}}</td>
+      <td data-label="Name:">{{ ef.employee.name }}</td> 
+      <td data-label="Time:">{{ ef.time }}</td> 
+      <td data-label="Date:">{{ ef.date }}</td> 
+    </tr>
+{% endfor %}
+
+  </tbody>
+</table>
+
+
+{% endblock%}

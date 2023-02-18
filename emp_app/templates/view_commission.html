@@ -1,0 +1,101 @@
+{% extends "nav.html" %}
+{% block nav_start %}
+{% load static %}
+<!-- D:\Paridhan Collection\employee\emp_app\assets -->
+
+<div class="container" style="margin-top: 5%;">
+  <form>
+    {% csrf_token %}
+    <label for="sort_by">Sort by:</label>
+    <select id="sort_by">
+      <option value="today" selected>Today</option>
+      <option value="month">Month</option>
+    </select>
+  </form>
+  <script>
+    window.addEventListener('load', function() {
+      const data = { selection: myDropdown.value };
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'update_c' %}",
+        data: data,
+        success: function(response) {
+          console.log(response);
+          updateCommissionTable(response);
+        },
+        error: function(response) {
+          alert("error");
+        }
+      });
+    });
+  </script>
+  <script>
+      var myDropdown = document.querySelector("#sort_by");
+        myDropdown.addEventListener("change", function() {
+          var selectedOption = myDropdown.options[myDropdown.selectedIndex].value;
+          console.log("Selected option: " + selectedOption);
+          var data ={'selection':selectedOption} 
+          $.ajax({
+            type:'GET',
+            url:"{% url 'update_c' %}",
+            data:data,
+            success:function(response){
+              console.log(response);
+              updateCommissionTable(response);
+            },
+            error:function(response)
+            {
+              alert("error");
+            }
+          })
+        });
+  </script>
+
+
+  <br>
+  <table class="table" id="commission-table">
+    <thead>
+      <tr>
+        <th scope="col">Employee ID</th>
+        <th scope="col">Employee Name</th>
+        <th scope="col">Total Sales</th>
+        <th scope="col">Commission</th>
+      </tr>
+    </thead>
+
+
+
+
+ 
+    <tbody>
+    </tbody>
+  </table>
+  <script>
+    const commissionTable = document.querySelector('#commission-table tbody');
+  
+  
+      function updateCommissionTable(data) {
+        commissionTable.innerHTML = '';
+        data.employee_commission.forEach(item => {
+          const row = commissionTable.insertRow();
+          const employeeId = row.insertCell(0);
+          employeeId.setAttribute("data-label", "Employee ID");
+          const employeeName=row.insertCell(1);
+          employeeName.setAttribute("data-label", "Employee Name");
+          const totalSales = row.insertCell(2);
+          totalSales.setAttribute("data-label", "Total Sales");
+          const commission = row.insertCell(3);
+          commission.setAttribute("data-label", "Commission");
+      
+          employeeId.innerHTML = item.employee_id;
+          employeeName.innerHTML=item.employee_name;
+          totalSales.innerHTML = item.total_sales;
+          commission.innerHTML = item.commission;
+        });
+      }
+      
+  </script>
+  
+
+{%endblock %}
+

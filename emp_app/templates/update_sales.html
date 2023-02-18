@@ -1,0 +1,51 @@
+{% extends "nav.html" %}
+{% block nav_start %}
+
+<div class="container" style="margin-top: 5%;">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{message}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  
+    </div>
+    {% endfor %}
+    {% endif %}
+<div style="text-align:center;">
+    <h2>Sale Update</h2>
+</div>
+
+
+<form action="{% url 'sale_update_action' %}" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <select name="id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+            {% for i in Employees %}
+            <!-- <option selected>{{detail.employee.name}}</option> -->
+            
+            <option value="{{i.name}}">{{i.name}}</option>
+            {% endfor %}
+        </select>
+        </div>
+
+   
+    <div class="mb-3">
+      <label for="exampleInputAmount1" class="form-label">Amount</label>
+      <input type="number" name="Amount" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={{detail.Amount}} required>
+      
+    </div>
+<div class="mb-3">
+    <select name="Type" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+       
+        <option selected>{{detail.Type}}</option>
+        <option value="Shiring and Shuting">Shirting and Shuting</option>
+        <option value="Both">Both</option>  
+
+    </select>
+    </div>
+    <input class="btn btn-success w-100" type="submit" value="Update">
+   
+  </form>
+</div>
+
+{%endblock %}

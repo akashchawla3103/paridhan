@@ -1,0 +1,142 @@
+{% extends "nav.html" %}
+{% block nav_start %}
+<div class="container" style="margin-top: 5%;">
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+  </div>
+  {% endfor %}
+  {% endif %}
+
+
+<div style="text-align:center;">
+    <h2>Register</h2>
+</div>
+<form method="post" id="register-form">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="exampleInputname1" class="form-label">Name</label>
+        <input type="text" name="name" class="form-control" id="exampleInputname1" aria-describedby="nameHelp">
+      <div id="nameHelp" class="form-text" style="visibility:hidden;">We'll never share your mobile with anyone else.</div>
+
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputMobile1" class="form-label">Mobile Number</label>
+      <input type="phone" name="mobile" class="form-control" id="exampleInputMobile1" >
+      <div id="mobileHelp" class="form-text" style="visibility:hidden;">We'll never share your mobile with anyone else.</div>
+
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputAddress1" class="form-label">Address</label>
+        <input type="text" name="address" class="form-control" id="exampleInputAddress1" >
+      </div>
+    <input class="btn btn-primary w-100" type="submit" value="Register">
+   
+  </form>
+
+<script>
+  const form = document.getElementById('register-form');
+  const nameInput = document.getElementById('exampleInputname1');
+  const emailInput = document.getElementById('exampleInputEmail1');
+  const mobileInput = document.getElementById('exampleInputMobile1');
+  const addressInput = document.getElementById('exampleInputAddress1');
+  const nameHelpInput = document.getElementById('nameHelp');
+  const emailHelpInput = document.getElementById('emailHelp');
+  const mobileHelpInput = document.getElementById('mobileHelp');
+  const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; // regular expression for email format
+  const namePattern = /^[a-zA-Z ]+$/;
+
+
+
+  form.addEventListener('submit', (event) => {
+    
+    if (!nameInput.value || !nameInput.value.match(namePattern)) {
+      nameInput.style.border = '2px solid red';
+      nameHelpInput.innerHTML="Please fill details"
+      nameHelpInput.style.visibility='visible'
+      nameHelpInput.style.color='red'
+      event.preventDefault();
+    }
+    if (!emailInput.value || !emailInput.value.match(emailPattern)) {
+      emailInput.style.border = '2px solid red';
+      emailHelpInput.innerHTML="Please fill details"
+      emailHelpInput.style.visibility='visible'
+      emailHelpInput.style.color='red'
+      event.preventDefault();
+    }
+    if (!mobileInput.value || mobileInput.value.length!=10)  {
+      mobileInput.style.border = '2px solid red';
+      mobileHelpInput.style.visibility='visible'
+      mobileHelpInput.style.color='red'
+      event.preventDefault();
+    }
+    if (!addressInput.value) {
+      addressInput.style.border = '2px solid red';
+      event.preventDefault();
+    }
+  });
+
+  nameInput.addEventListener('input', () => {
+
+    if(!(nameInput.value.match(namePattern)))
+    {
+      nameInput.style.border = '2px solid red';
+      nameHelpInput.innerHTML="Name Can't contain Number"
+      nameHelpInput.style.visibility='visible'
+      nameHelpInput.style.color='red'
+    }
+    else{
+      nameInput.style.border = '';
+      nameHelpInput.style.visibility='hidden'
+  
+    }
+    
+  });
+
+  
+  emailInput.addEventListener('input', () => {
+    emailInput.style.border = '';
+    if (!(emailInput.value.match(emailPattern))) {
+        emailInput.style.border = '2px solid red';
+        emailHelpInput.innerHTML="Please fill correct details"
+        emailHelpInput.style.visibility='visible'
+        emailHelpInput.style.color='red'
+    }
+    else
+    {
+      emailHelpInput.style.visibility='hidden'
+    }
+  });
+
+  mobileInput.addEventListener('input', () => {
+    const mobilePattern = /^\d{10}$/;
+    if(!mobileInput.value.match(mobilePattern))
+    {
+      mobileInput.style.border = '2px solid red';
+      mobileHelpInput.innerHTML="Please fill correct details"
+      mobileHelpInput.style.visibility='visible'
+      mobileHelpInput.style.color='red'
+    }
+    else{
+    mobileInput.style.border = '';
+    mobileHelpInput.style.visibility='hidden'
+
+    }
+  });
+
+  addressInput.addEventListener('input', () => {
+    addressInput.style.border = '';
+  });
+
+</script>
+
+{% endblock %}
